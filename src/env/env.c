@@ -23,7 +23,11 @@ t_env	*copy_env(char **envp)
 	i = 0;
 	while (envp[i])
 	{
+<<<<<<< HEAD
 		new_node = env_new_node(envp[i]);
+=======
+		new_node = new_env_node(envp[i]);
+>>>>>>> 22a6687 (feat(env): implement environment parsing into linked list)
 		if (!new_node)
 			return (free_env_list(head), NULL);
 		new_node->is_exported = 1;

@@ -13,7 +13,11 @@
 #include "minishell.h"
 
 /* Splitting the key and its value & storing it inside a node, ignoring '=' */
+<<<<<<< HEAD
 t_env	*env_new_node(char *str)
+=======
+t_env	*new_env_node(char *str)
+>>>>>>> 22a6687 (feat(env): implement environment parsing into linked list)
 {
 	t_env	*node;
 	char	*equal_ptr;
