@@ -35,6 +35,14 @@ LIBFT		= $(LIBFTDIR)/libft.a
 
 CORE		= main.c
 
+BI			= builtins/bi_cd.c \
+			  builtins/bi_echo.c \
+			  builtins/bi_env.c \
+			  builtins/bi_exit.c \
+			  builtins/bi_export.c \
+			  builtins/bi_pwd.c \
+			  builtins/bi_unset.c \
+
 ENV			= env/env.c \
 			  env/env_utils.c \
 			  env/env_clean.c
@@ -43,7 +51,7 @@ SIG			= signal/signal.c
 
 ERR			= error/err_printer.c
 
-SRC			= $(addprefix $(SRCDIR)/, $(CORE) $(ENV) $(SIG) $(ERR))
+SRC			= $(addprefix $(SRCDIR)/, $(CORE) $(BI) $(ENV) $(SIG) $(ERR))
 
 # ════════════════════════════════════════════════════════════════════════════ #
 #                                OBJECT FILES                                  #
@@ -74,6 +82,9 @@ $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/%.o: $(SRCDIR)/builtins/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/env/%.c | $(OBJDIR)

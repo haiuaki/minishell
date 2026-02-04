@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include "builtins.h"
 # include "env.h"
 # include "sig.h"
 # include "error.h"
