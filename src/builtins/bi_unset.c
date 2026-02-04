@@ -13,18 +13,22 @@
 #include "minishell.h"
 
 /* Implementation of the built-in command `unset` */
-void	bi_unset(char *str, t_env **head_ptr)
+void	bi_unset(char *key_str, t_env **head_ptr)
 {
 	t_env	*tmp;
 	t_env	*prev;
 
-	if (!str)
+	if (!key_str)
+		return ;
+	while (*key_str && ft_isspace(*key_str))
+		key_str++;
+	if (!*key_str)
 		return ;
 	tmp = *head_ptr;
 	prev = NULL;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->key, str) == 0)
+		if (ft_strcmp(tmp->key, key_str) == 0)
 		{
 			if (prev)
 				prev->next = tmp->next;

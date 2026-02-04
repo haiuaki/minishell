@@ -21,8 +21,8 @@
 void	bi_echo(char *str, int n_flag);
 void	bi_env(t_env *head);
 void	bi_exit(char *str);
-void	bi_export(t_env *head);
+void	bi_export(char *str, t_env **head_ptr);
 void	bi_pwd(void);
-void	bi_unset(char *str, t_env **head_ptr);
+void	bi_unset(char *key_str, t_env **head_ptr);
 
 #endif
