@@ -19,6 +19,7 @@
 =======
 >>>>>>> 22a6687 (feat(env): implement environment parsing into linked list)
 # include "env.h"
+# include "parse.h"
 # include "sig.h"
 # include "error.h"
 
