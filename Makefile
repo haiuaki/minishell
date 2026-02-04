@@ -35,6 +35,7 @@ LIBFT		= $(LIBFTDIR)/libft.a
 
 CORE		= main.c
 
+<<<<<<< HEAD
 BI			= builtins/bi_cd.c \
 			  builtins/bi_echo.c \
 			  builtins/bi_env.c \
@@ -43,15 +44,21 @@ BI			= builtins/bi_cd.c \
 			  builtins/bi_pwd.c \
 			  builtins/bi_unset.c \
 
+=======
+>>>>>>> 22a6687 (feat(env): implement environment parsing into linked list)
 ENV			= env/env.c \
 			  env/env_utils.c \
 			  env/env_clean.c
 
 SIG			= signal/signal.c
 
+<<<<<<< HEAD
 ERR			= error/err_printer.c
 
 SRC			= $(addprefix $(SRCDIR)/, $(CORE) $(BI) $(ENV) $(SIG) $(ERR))
+=======
+SRC			= $(addprefix $(SRCDIR)/, $(CORE) $(ENV) $(SIG))
+>>>>>>> 22a6687 (feat(env): implement environment parsing into linked list)
 
 # ════════════════════════════════════════════════════════════════════════════ #
 #                                OBJECT FILES                                  #
@@ -84,9 +91,12 @@ $(OBJDIR):
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+<<<<<<< HEAD
 $(OBJDIR)/%.o: $(SRCDIR)/builtins/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+=======
+>>>>>>> 22a6687 (feat(env): implement environment parsing into linked list)
 $(OBJDIR)/%.o: $(SRCDIR)/env/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 

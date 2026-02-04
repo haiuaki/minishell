@@ -31,7 +31,11 @@ t_env	*copy_env(char **envp);
 
 /* --------------------------------- UTILS ---------------------------------- */
 
+<<<<<<< HEAD
 t_env	*env_new_node(char *str);
+=======
+t_env	*new_env_node(char *str);
+>>>>>>> 22a6687 (feat(env): implement environment parsing into linked list)
 void	env_add_back(t_env **head, t_env *new_node);
 
 /* ---------------------------------- FREE ---------------------------------- */

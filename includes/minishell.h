@@ -14,7 +14,10 @@
 # define MINISHELL_H
 
 # include "libft.h"
+<<<<<<< HEAD
 # include "builtins.h"
+=======
+>>>>>>> 22a6687 (feat(env): implement environment parsing into linked list)
 # include "env.h"
 # include "sig.h"
 # include "error.h"
