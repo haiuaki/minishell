@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "env.h"
 # include "sig.h"
+# include "error.h"
 
 /* -------------------------------- MESSAGES -------------------------------- */
 

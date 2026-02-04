@@ -41,7 +41,9 @@ ENV			= env/env.c \
 
 SIG			= signal/signal.c
 
-SRC			= $(addprefix $(SRCDIR)/, $(CORE) $(ENV) $(SIG))
+ERR			= error/err_printer.c
+
+SRC			= $(addprefix $(SRCDIR)/, $(CORE) $(ENV) $(SIG) $(ERR))
 
 # ════════════════════════════════════════════════════════════════════════════ #
 #                                OBJECT FILES                                  #
@@ -78,6 +80,9 @@ $(OBJDIR)/%.o: $(SRCDIR)/env/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/signal/%.c | $(OBJDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/%.o: $(SRCDIR)/error/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJDIR) $(OBJS) $(LIBFT)
