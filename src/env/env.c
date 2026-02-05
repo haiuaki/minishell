@@ -6,7 +6,7 @@
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 23:12:55 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/05 17:39:54 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/05 17:58:41 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,7 @@ t_env	*copy_env(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-<<<<<<< HEAD
 		new_node = env_new_node(envp[i]);
-=======
-		new_node = new_env_node(envp[i]);
->>>>>>> 22a6687 (feat(env): implement environment parsing into linked list)
 		if (!new_node)
 			return (free_env_list(head), NULL);
 		new_node->is_exported = 1;
