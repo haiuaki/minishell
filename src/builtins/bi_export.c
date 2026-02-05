@@ -12,7 +12,37 @@
 
 #include "minishell.h"
 
-/* Implementation of the built-in command `export` */
+/*
+ * Helper function to verify if the environment variable already exists.
+ * Returns 1 if it already exists and replaces the value of the variable
+ * by the new given value.
+ * Returns 0 if it doesn't, it will add the variable to the list.
+ */
+static int	does_exist(t_env **head_ptr, t_env *node)
+{
+	t_env	*tmp;
+
+	tmp = *head_ptr;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, node->key) == 0)
+		{
+			tmp->value = ft_strdup(node->value);
+			if (!tmp->value)
+				free(tmp->value);
+			free_env_node(node);
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+/*
+ * Implementation of the built-in command `export`
+ * If no argument is given, it writes the list of exported variables
+ * in a format suitable for re-input to the shell.
+ */
 void	bi_export(char *str, t_env **head_ptr)
 {
 	t_env	*tmp;
@@ -25,11 +55,9 @@ void	bi_export(char *str, t_env **head_ptr)
 	{
 		node = new_env_node(str);
 		if (!node)
-		{
-			free_env_list(*head_ptr);
-			return ;
-		}
-		env_add_back(head_ptr, node);
+			return (free_env_list(*head_ptr));
+		if (!does_exist(&tmp, node))
+			env_add_back(head_ptr, node);
 	}
 	else
 	{
@@ -64,6 +92,7 @@ int	main(int ac, char *av[], char *envp[])
 			bi_unset(input + 5, &env_copy);
 		free(input);
 	}
+	free_env_list(env_copy);
 	return (0);
 }
  */
