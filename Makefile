@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: juljin <juljin@student.42.fr>              +#+  +:+       +#+         #
+#    By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/22 20:13:40 by juljin            #+#    #+#              #
-#    Updated: 2026/01/27 01:09:27 by juljin           ###   ########.fr        #
+#    Updated: 2026/02/05 15:17:53 by sopelet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,8 @@ BI			= builtins/bi_cd.c \
 
 ENV			= env/env.c \
 			  env/env_utils.c \
-			  env/env_clean.c
+			  env/env_clean.c \
+			  env/env_conversion.c \
 
 SIG			= signal/signal.c
 
