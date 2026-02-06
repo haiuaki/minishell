@@ -6,7 +6,7 @@
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 01:00:23 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/05 18:00:03 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/06 16:58:25 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_env	*env_new_node(char *str)
 	if (equal_ptr)
 	{
 		key_len = equal_ptr - str;
+		if (key_len == 0)
+			return (free_env_node(node), NULL);
 		node->key = ft_substr(str, 0, key_len);
 		node->value = ft_strdup(equal_ptr + 1);
 	}

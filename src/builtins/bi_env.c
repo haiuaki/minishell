@@ -6,7 +6,7 @@
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:39:41 by juljin            #+#    #+#             */
-/*   Updated: 2026/01/27 14:20:38 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/06 16:54:36 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,13 @@ void	bi_env(t_env *head)
 	tmp = head;
 	while (tmp)
 	{
-		printf("%s%c%s\n", tmp->key, '=', tmp->value);
+		if (tmp->is_exported)
+		{
+			if (tmp->value == NULL)
+				printf("%s=\n", tmp->key);
+			else
+				printf("%s=%s\n", tmp->key, tmp->value);
+		}
 		tmp = tmp->next;
 	}
 }
