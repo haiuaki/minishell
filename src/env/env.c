@@ -45,14 +45,9 @@ int	main(int ac, char *av[], char *envp[])
 		return (1);
 	while (env_copy)
 	{
-<<<<<<< HEAD
 		printf("Key: %s\n", env_copy->key);
 		printf("Value: %s\n", env_copy->value);
 		printf("Exported: %d\n", env_copy->is_exported);
-=======
-		printf("Key : %s\n", env_copy->key);
-		printf("Value : %s\n", env_copy->value);
->>>>>>> 22a6687 (feat(env): implement environment parsing into linked list)
 		env_copy = env_copy->next;
 	}
 	return (0);
