@@ -6,7 +6,7 @@
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:02:54 by juljin            #+#    #+#             */
-/*   Updated: 2026/01/27 14:20:45 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/06 14:45:19 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	bi_export(char *str, t_env **head_ptr)
 		str++;
 	if (*str)
 	{
-		node = new_env_node(str);
+		node = env_new_node(str);
 		if (!node)
 			return (free_env_list(*head_ptr));
 		if (!does_exist(&tmp, node))
