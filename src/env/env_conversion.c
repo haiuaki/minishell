@@ -6,7 +6,7 @@
 /*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:53:50 by sopelet           #+#    #+#             */
-/*   Updated: 2026/02/05 17:47:17 by sopelet          ###   ########.fr       */
+/*   Updated: 2026/02/06 15:12:41 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ size_t	env_size(t_env *env)
 	count = 0;
 	while (env)
 	{
-		count++;
+		if (env->is_exported)
+			count++;
 		env = env->next;
 	}
 	return (count);
@@ -42,6 +43,7 @@ char	*create_line(t_env *env)
 }
 
 /* Converting the env_list to an array of strings
+Sent to the array only if is_exported = 1
 Needed to call execve() with an env that may change at runtime */
 char	**env_to_array(t_env *env)
 {
@@ -58,11 +60,14 @@ char	**env_to_array(t_env *env)
 	current = env;
 	while (current)
 	{
-		res[i] = create_line(current);
-		if (!res[i])
-			return (ft_free_array(res), NULL);
+		if (current->is_exported)
+		{
+			res[i] = create_line(current);
+			if (!res[i])
+				return (ft_free_array(res), NULL);
+			i++;
+		}
 		current = current->next;
-		i++;
 	}
 	res[i] = NULL;
 	return (res);
@@ -73,6 +78,7 @@ int	main(int ac, char **av, char **envp)
 	t_env	*env_cp;
 	char	**env_array;
 	int		i;
+	t_env	*export;
 
 	(void)ac;
 	(void)av;
@@ -80,6 +86,9 @@ int	main(int ac, char **av, char **envp)
 	env_cp = copy_env(envp);
 	if (!env_cp)
 		return (1);
+	export = env_new_node("HOLA=GENTE");
+	export->is_exported = 1;
+	env_add_back(&env_cp, export);
 	env_array = env_to_array(env_cp);
 	while (env_array[i])
 	{
