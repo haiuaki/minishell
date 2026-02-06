@@ -6,7 +6,7 @@
 #    By: juljin <juljin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/22 20:13:40 by juljin            #+#    #+#              #
-#    Updated: 2026/01/26 15:38:37 by juljin           ###   ########.fr        #
+#    Updated: 2026/01/27 01:09:27 by juljin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,9 +35,13 @@ LIBFT		= $(LIBFTDIR)/libft.a
 
 CORE		= main.c
 
+ENV			= env/env.c \
+			  env/env_utils.c \
+			  env/env_clean.c
+
 SIG			= signal/signal.c
 
-SRC			= $(addprefix $(SRCDIR)/, $(CORE) $(SIG))
+SRC			= $(addprefix $(SRCDIR)/, $(CORE) $(ENV) $(SIG))
 
 # ════════════════════════════════════════════════════════════════════════════ #
 #                                OBJECT FILES                                  #
@@ -68,6 +72,9 @@ $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/%.o: $(SRCDIR)/env/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/signal/%.c | $(OBJDIR)

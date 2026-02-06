@@ -1,40 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env_clean.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/23 11:58:50 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/05 17:39:38 by juljin           ###   ########.fr       */
+/*   Created: 2026/01/27 00:05:30 by juljin            #+#    #+#             */
+/*   Updated: 2026/01/27 00:05:30 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_signal = 0;
-
-int	main(int ac, char *av[], char *envp[])
+/* Freeing one `t_env` node */
+void	free_env_node(t_env *node)
 {
-	t_shell	data;
-	char	*input;
+	if (!node)
+		return ;
+	if (node->key)
+		free(node->key);
+	if (node->value)
+		free(node->value);
+	free(node);
+}
 
-	(void)av;
-	if (ac != 1)
-		return (printf(USAGE), 1);
-	data.env = copy_env(envp);
-	if (!data.env)
-		return (1);
-	while (1)
+/* Freeing the `t_env` list */
+void	free_env_list(t_env *head)
+{
+	t_env	*tmp;
+
+	if (!head)
+		return ;
+	while (head)
 	{
-		sig_set_parent();
-		input = readline(PROMPT);
-		if (!input)
-			break ;
-		if (input && *input)
-			add_history(input);
-		free(input);
+		tmp = head->next;
+		free_env_node(head);
+		head = tmp;
 	}
-	free_env_list(data.env);
-	return (0);
 }
