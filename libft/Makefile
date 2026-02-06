@@ -76,6 +76,7 @@ MEM_SRC		= memory/ft_bzero.c \
 STR_SRC		= string/ft_free_array.c \
 			  string/ft_split.c \
 			  string/ft_strchr.c \
+			  string/ft_strcmp.c \
 			  string/ft_strdup.c \
 			  string/ft_striteri.c \
 			  string/ft_strjoin.c \
