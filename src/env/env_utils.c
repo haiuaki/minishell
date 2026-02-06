@@ -6,26 +6,14 @@
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 01:00:23 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/06 16:58:25 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/06 18:38:32 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Splitting the key and its value & storing it inside a node, ignoring '=' */
-<<<<<<< HEAD
 t_env	*env_new_node(char *str)
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-t_env	*env_new_node(char *str)
-=======
-t_env	*new_env_node(char *str)
->>>>>>> 22a6687 (feat(env): implement environment parsing into linked list)
-=======
-t_env	*new_env_node(char *str)
->>>>>>> 22a6687 (feat(env): implement environment parsing into linked list)
->>>>>>> 1e214fb (feat(env): implement environment parsing into linked list)
 {
 	t_env	*node;
 	char	*equal_ptr;
