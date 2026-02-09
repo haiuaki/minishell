@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:09:38 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/01 16:36:09 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/09 12:47:14 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 /* -------------------------------- BUILTINS -------------------------------- */
 
+void	bi_cd(char *go_to, t_env *env);
 void	bi_echo(char *str, int n_flag);
 void	bi_env(t_env *head);
 void	bi_exit(char *str);

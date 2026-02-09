@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 01:00:23 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/06 16:58:25 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/09 12:26:50 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,19 @@ void	env_add_back(t_env **head, t_env *new_node)
 	while (current->next)
 		current = current->next;
 	current->next = new_node;
+}
+
+/* Search and retrieve the associated value of the given key in the env */
+char	*env_get_value(t_env *env, char *key)
+{
+	t_env	*current;
+
+	current = env;
+	while (current)
+	{
+		if (ft_strcmp(current->key, key) == 0)
+			return (current->value);
+		current = current->next;
+	}
+	return (key);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 23:20:24 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/05 17:00:56 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/09 12:37:27 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_env	*copy_env(char **envp);
 
 t_env	*env_new_node(char *str);
 void	env_add_back(t_env **head, t_env *new_node);
+char	*env_get_value(t_env *env, char *key);
 
 /* ---------------------------------- FREE ---------------------------------- */
 

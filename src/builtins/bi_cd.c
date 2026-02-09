@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sophie <sophie@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 16:41:26 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/07 18:34:17 by sophie           ###   ########.fr       */
+/*   Updated: 2026/02/09 20:12:06 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	env_oldpwd(t_env *env)
 	free(cwd);
 }
 
+// Update the current pwd
 void	env_current_pwd(t_env *env)
 {
 	t_env	*current;
@@ -59,57 +60,53 @@ void	env_current_pwd(t_env *env)
 	free(cur_path);
 }
 
-/* Search and retrieve the associated value of the given key in the env */
-char	*env_get_value(t_env *env, char *key)
-{
-	t_env	*current;
-
-	current = env;
-	while (current)
-	{
-		if (ft_strcmp(current->key, key) == 0)
-			return (current->value);
-		current = current->next;
-	}
-	return (key);
-}
-
-void	bi_cd(char *go_to, t_env *env)
+// Handle "cd ~"
+static void	handle_tilde(char *go_to, t_env *env)
 {
 	char	*home;
 	char	*full_path;
 
+	home = env_get_value(env, "HOME");
+	if (!home)
+		return (free_env_list(env));
+	full_path = ft_strjoin(home, go_to + 1);
+	env_oldpwd(env);
+	if (chdir(full_path) == -1)
+		return (print_error("minishell: cd: ", full_path, strerror(errno)),
+			free(full_path));
+	env_current_pwd(env);
+	free(full_path);
+}
+
+void	bi_cd(char *go_to, t_env *env)
+{
 	while (*go_to && ft_isspace(*go_to))
 		go_to++;
 	if (!*go_to)
 		return ;
 	if (ft_strncmp(go_to, "~", 1) == 0)
+		handle_tilde(go_to, env);
+	else if (ft_strncmp(go_to, "..", 2) == 0)
 	{
-		home = env_get_value(env, "HOME");
-		if (!home)
-			return (free_env_list(env));
-		full_path = ft_strjoin(home, go_to + 1);
 		env_oldpwd(env);
-		if (chdir(full_path) == -1)
-		{
-			print_error("minishell: cd: ", full_path,
-				"No such file or directory");
-			free(full_path);
-			return ;
-		}
+		if (!getcwd(NULL, 0))
+			return (print_error("minishell: cd: ", "..", strerror(errno)));
+		if (chdir(go_to) == -1)
+			return (print_error("minishell: cd: ", go_to, strerror(errno)));
 		env_current_pwd(env);
-		free(full_path);
 	}
-	if (ft_strncmp(go_to, "..", 2) == 0)
+	else if (ft_strncmp(go_to, ".", 1) == 0)
+		env_oldpwd(env);
+	else
 	{
 		env_oldpwd(env);
 		if (chdir(go_to) == -1)
-			return ;
+			return (print_error("minishell: cd: ", go_to, strerror(errno)));
+		env_current_pwd(env);
 	}
-	env_current_pwd(env);
 }
-/* 
-int	main(int ac, char **av, char **envp)
+
+/* int	main(int ac, char **av, char **envp)
 {
 	t_env	*env_cpy;
 	char	*path;
@@ -121,7 +118,7 @@ int	main(int ac, char **av, char **envp)
 	if (!env_cpy)
 		return (1);
 	current = env_cpy;
-	path = "~";
+	path = "/common_core";
 	bi_cd(path, env_cpy);
 	while (current)
 	{
@@ -141,7 +138,7 @@ int	main(int ac, char **av, char **envp)
 	char	*input;
 	t_env	*current;
 	t_env	*env;
-	
+
 	(void)ac;
 	(void)av;
 	env = copy_env(envp);
