@@ -6,7 +6,7 @@
 /*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 16:41:26 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/09 20:12:06 by sopelet          ###   ########.fr       */
+/*   Updated: 2026/02/11 19:24:04 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,33 @@ static void	handle_tilde(char *go_to, t_env *env)
 	free(full_path);
 }
 
+// Handle "cd .."
+static void	prev_dir(char *go_to, t_env *env)
+{
+	char	*is_valid;
+
+	env_oldpwd(env);
+	is_valid = getcwd(NULL, 0);
+	if (!is_valid && errno == ENOENT)
+	{
+		if (env->is_orphaned == 0)
+			return (free(is_valid), print_error("minishell: cd: ", "..",
+					strerror(errno)));
+		else
+			return (free(is_valid), print_error("chdir: ",
+					"error retrieving current directory", ORPHANED_DIR));
+	}
+	else if (!is_valid && errno != ENOENT)
+		return (free(is_valid),
+			print_error("minishell: ", "getcwd", strerror(errno)));
+	if (chdir(go_to) == -1)
+		return (free(is_valid), print_error("minishell: cd: ", "..",
+				strerror(errno)));
+	env->is_orphaned = 0;
+	env_current_pwd(env);
+	free(is_valid);
+}
+
 void	bi_cd(char *go_to, t_env *env)
 {
 	while (*go_to && ft_isspace(*go_to))
@@ -87,14 +114,7 @@ void	bi_cd(char *go_to, t_env *env)
 	if (ft_strncmp(go_to, "~", 1) == 0)
 		handle_tilde(go_to, env);
 	else if (ft_strncmp(go_to, "..", 2) == 0)
-	{
-		env_oldpwd(env);
-		if (!getcwd(NULL, 0))
-			return (print_error("minishell: cd: ", "..", strerror(errno)));
-		if (chdir(go_to) == -1)
-			return (print_error("minishell: cd: ", go_to, strerror(errno)));
-		env_current_pwd(env);
-	}
+		prev_dir(go_to, env);
 	else if (ft_strncmp(go_to, ".", 1) == 0)
 		env_oldpwd(env);
 	else
@@ -105,8 +125,8 @@ void	bi_cd(char *go_to, t_env *env)
 		env_current_pwd(env);
 	}
 }
-
-/* int	main(int ac, char **av, char **envp)
+/* 
+int	main(int ac, char **av, char **envp)
 {
 	t_env	*env_cpy;
 	char	*path;
@@ -164,9 +184,10 @@ int	main(int ac, char **av, char **envp)
 			}
 		}
 		if (ft_strcmp(input, "pwd") == 0)
-			bi_pwd();
+			bi_pwd(env);
 		if (ft_strcmp(input, "env") == 0)
 			bi_env(env);
+		free(input);
 	}
 	free_env_list(env);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 23:12:55 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/05 17:58:41 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/11 18:12:21 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_env	*copy_env(char **envp)
 		if (!new_node)
 			return (free_env_list(head), NULL);
 		new_node->is_exported = 1;
+		new_node->is_orphaned = 0;
 		env_add_back(&head, new_node);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 23:20:24 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/09 12:37:27 by sopelet          ###   ########.fr       */
+/*   Updated: 2026/02/11 18:10:45 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	int				is_exported;
+	int				is_orphaned;
 	struct s_env	*next;
 }					t_env;
 
