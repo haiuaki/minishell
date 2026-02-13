@@ -37,7 +37,8 @@ t_token	*tokenizer(char *input)
 /*
 int	main(void)
 {
-	t_token *tokens;
+	t_token	*tokens;
+	t_token	*tmp;
 	char	*input;
 
 	while (1)
@@ -53,10 +54,11 @@ int	main(void)
 			if (!tokens)
 				return (free(input), 1);
 		}
-		while (tokens)
+		tmp = tokens;
+		while (tmp)
 		{
-			printf("[%u] %s\n", tokens->type, tokens->value);
-			tokens = tokens->next;
+			printf("[%u] %s\n", tmp->type, tmp->value);
+			tmp = tmp->next;
 		}
 		free_token_list(tokens);
 		free(input);

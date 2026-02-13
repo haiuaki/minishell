@@ -65,21 +65,21 @@ static t_token	*tokenize_operator(char *str, size_t *i)
 }
 
 /*
- * Helper function to create a token of a word, checking if the word is in quotes.
- * If so, strips them and keep the word only.
+ * Helper function to create a token of a word, if the word is in quotes
+ * strips the quotes and keep the word only.
  */
 static t_token	*tokenize_word(char *str, size_t *i)
 {
 	t_token	*new_token;
 	size_t	len;
 	char	in_quote;
-	
+
 	len = 0;
 	in_quote = 0;
 	while (str[*i + len])
 	{
 		set_quote_mode(str[*i + len], &in_quote);
-		if (in_quote == 0 && (ft_isspace(str[*i + len]) || is_separator(str[*i + len])))
+		if (!in_quote && (ft_isspace(str[*i + len]) || is_sep(str[*i + len])))
 			break ;
 		len++;
 	}
@@ -104,9 +104,8 @@ static t_token	*tokenize_word(char *str, size_t *i)
  */
 t_token	*create_token(char *str, size_t *i)
 {
-	if (is_separator(str[*i]))
+	if (is_sep(str[*i]))
 		return (tokenize_operator(str, i));
 	else
 		return (tokenize_word(str, i));
 }
-

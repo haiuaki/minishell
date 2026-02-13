@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 volatile sig_atomic_t	g_signal = 0;
-
+/*
 int	main(int ac, char *av[], char *envp[])
 {
 	t_shell	data;
@@ -38,3 +38,4 @@ int	main(int ac, char *av[], char *envp[])
 	free_env_list(data.env);
 	return (0);
 }
+*/

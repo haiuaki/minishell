@@ -19,7 +19,7 @@ int	is_quote(char c)
 }
 
 /* Helper function to verify if a charcter is a separator */
-int	is_separator(char c)
+int	is_sep(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
