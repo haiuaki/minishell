@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:02:54 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/06 18:29:01 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/13 17:34:19 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	does_exist(t_env **head_ptr, t_env *node)
  * Helper function to handle arguments and add to the `t_env` list.
  * (e.g. `export a=1 b=2 c=3)
  */
-static int	export_args(char **args, t_env **head_ptr)
+static int	export_args(t_token *token, t_env **head_ptr)
 {
 	t_env	*node;
 	t_env	*tmp;
@@ -65,12 +65,12 @@ static int	export_args(char **args, t_env **head_ptr)
 
 	tmp = *head_ptr;
 	i = 0;
-	while (args[i])
+	while (token)
 	{
-		node = env_new_node(args[i]);
+		node = env_new_node(token->value);
 		if (!node)
 		{
-			print_export_error(args[i]);
+			print_export_error(token->value);
 			i++;
 			continue ;
 		}
@@ -81,8 +81,9 @@ static int	export_args(char **args, t_env **head_ptr)
 			env_add_back(head_ptr, node);
 		}
 		i++;
+		token = token->next;
 	}
-	return (ft_free_array(args), 1);
+	return (1);
 }
 
 /*
@@ -90,17 +91,15 @@ static int	export_args(char **args, t_env **head_ptr)
  * If no argument is given, it writes the list of exported variables
  * in a format suitable for re-input to the shell.
  */
-void	bi_export(char *str, t_env **head_ptr)
+void	bi_export(t_token *token, t_env **head_ptr)
 {
-	char	**args;
 	t_env	*tmp;
+	t_token	*current;
 
 	tmp = *head_ptr;
-	args = ft_split(str, ' ');
-	if (!args)
-		return (ft_free_array(args));
-	if (args[0] != NULL)
-		export_args(args, head_ptr);
+	current = token;
+	if (current->next != NULL)
+		export_args(current, head_ptr);
 	else
 	{
 		while (tmp)
@@ -113,7 +112,7 @@ void	bi_export(char *str, t_env **head_ptr)
 		}
 	}
 }
-/*
+/* 
 int	main(int ac, char *av[], char *envp[])
 {
 	t_env	*env_copy;
@@ -142,4 +141,4 @@ int	main(int ac, char *av[], char *envp[])
 	free_env_list(env_copy);
 	return (0);
 }
-*/
+ */

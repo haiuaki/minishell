@@ -6,7 +6,7 @@
 /*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 16:41:26 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/11 19:24:04 by sopelet          ###   ########.fr       */
+/*   Updated: 2026/02/13 19:30:13 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	env_current_pwd(t_env *env)
 }
 
 // Handle "cd ~"
-static void	handle_tilde(char *go_to, t_env *env)
+static void	handle_tilde(t_token *token, t_env *env)
 {
 	char	*home;
 	char	*full_path;
@@ -69,7 +69,13 @@ static void	handle_tilde(char *go_to, t_env *env)
 	home = env_get_value(env, "HOME");
 	if (!home)
 		return (free_env_list(env));
-	full_path = ft_strjoin(home, go_to + 1);
+	if (!token->next)
+	{
+		if (chdir(home) == -1)
+			return (print_error("minishell: cd: ", "HOME", strerror(errno)));
+		return ;
+	}
+	full_path = ft_strjoin(home, token->value + 1);
 	env_oldpwd(env);
 	if (chdir(full_path) == -1)
 		return (print_error("minishell: cd: ", full_path, strerror(errno)),
@@ -79,7 +85,7 @@ static void	handle_tilde(char *go_to, t_env *env)
 }
 
 // Handle "cd .."
-static void	prev_dir(char *go_to, t_env *env)
+static void	prev_dir(t_token *token, t_env *env)
 {
 	char	*is_valid;
 
@@ -95,9 +101,9 @@ static void	prev_dir(char *go_to, t_env *env)
 					"error retrieving current directory", ORPHANED_DIR));
 	}
 	else if (!is_valid && errno != ENOENT)
-		return (free(is_valid),
-			print_error("minishell: ", "getcwd", strerror(errno)));
-	if (chdir(go_to) == -1)
+		return (free(is_valid), print_error("minishell: ", "getcwd",
+				strerror(errno)));
+	if (chdir(token->value) == -1)
 		return (free(is_valid), print_error("minishell: cd: ", "..",
 				strerror(errno)));
 	env->is_orphaned = 0;
@@ -105,27 +111,30 @@ static void	prev_dir(char *go_to, t_env *env)
 	free(is_valid);
 }
 
-void	bi_cd(char *go_to, t_env *env)
+void	bi_cd(t_token *token, t_env *env)
 {
-	while (*go_to && ft_isspace(*go_to))
-		go_to++;
-	if (!*go_to)
-		return ;
-	if (ft_strncmp(go_to, "~", 1) == 0)
-		handle_tilde(go_to, env);
-	else if (ft_strncmp(go_to, "..", 2) == 0)
-		prev_dir(go_to, env);
-	else if (ft_strncmp(go_to, ".", 1) == 0)
-		env_oldpwd(env);
+	if (!token->next)
+		handle_tilde(token, env);
 	else
 	{
-		env_oldpwd(env);
-		if (chdir(go_to) == -1)
-			return (print_error("minishell: cd: ", go_to, strerror(errno)));
-		env_current_pwd(env);
+		token = token->next;
+		if (ft_strncmp(token->value, "~", 1) == 0)
+			handle_tilde(token, env);
+		else if (ft_strncmp(token->value, "..", 2) == 0)
+			prev_dir(token, env);
+		else if (ft_strncmp(token->value, ".", 1) == 0)
+			env_oldpwd(env);
+		else
+		{
+			env_oldpwd(env);
+			if (chdir(token->value) == -1)
+				return (print_error("minishell: cd: ", token->value,
+						strerror(errno)));
+			env_current_pwd(env);
+		}
 	}
 }
-/* 
+/*
 int	main(int ac, char **av, char **envp)
 {
 	t_env	*env_cpy;

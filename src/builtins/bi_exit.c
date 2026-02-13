@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 22:52:32 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/01 16:03:28 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/13 18:42:46 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,27 +32,20 @@ static int	is_num(char *str)
 }
 
 /* Implementation of the built-in command `exit` */
-void	bi_exit(char *str)
+void	bi_exit(t_token *token)
 {
 	int		status;
-	char	*arg;
-	char	*end;
 
 	write(2, "exit\n", 5);
-	arg = str + 4;
-	while (*arg && ft_isspace(*arg))
-		arg++;
-	if (!*arg)
+	if (!token->next)
 		exit(EXIT_SUCCESS);
-	end = arg;
-	while (*end && !ft_isspace(*end))
-		end++;
-	*end = '\0';
-	if (is_num(arg))
-		status = ft_atoi(arg);
+	token = token->next;
+	if (is_num(token->value))
+		status = ft_atoi(token->value);
 	else
 	{
-		print_error("minishell: exit: ", arg, "numeric argument required.");
+		print_error("minishell: exit: ", token->value,
+			"numeric argument required.");
 		status = 2;
 	}
 	exit(status);
@@ -72,4 +65,4 @@ int	main(void)
 	}
 	return (0);
 }
-*/
+ */

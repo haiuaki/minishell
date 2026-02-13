@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:27:18 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/06 16:46:29 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/13 17:55:10 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
  * Helper function to check every node inside the `t_env` list
  * to see if one of the given arguments to `unset` matches an existing variable.
  */
-static void	unset_key_loop(char *arg, t_env **head_ptr, t_env *tmp, t_env *prev)
+static void	unset_key_loop(t_token *token, t_env **head_ptr, t_env *tmp,
+		t_env *prev)
 {
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->key, arg) == 0)
+		if (ft_strcmp(tmp->key, token->value) == 0)
 		{
 			if (prev)
 				prev->next = tmp->next;
@@ -34,42 +35,38 @@ static void	unset_key_loop(char *arg, t_env **head_ptr, t_env *tmp, t_env *prev)
 	}
 }
 
-/* 
+/*
  * Helper function that splits the given arguments into an array
  * and then searches the `t_env` list with `unset_key_loop()
  * to see if it can be unset.
  */
-static void	unset_args(char *str, t_env **head_ptr)
+static void	unset_args(t_token *token, t_env **head_ptr)
 {
-	char	**args;
 	t_env	*prev;
 	t_env	*tmp;
 	size_t	i;
 
-	args = ft_split(str, ' ');
-	if (!args || args[0] == NULL)
-		return (ft_free_array(args));
 	i = 0;
-	while (args[i])
+	if (!token)
+		return ;
+	while (token)
 	{
 		tmp = *head_ptr;
 		prev = NULL;
-		unset_key_loop(args[i], head_ptr, tmp, prev);
+		unset_key_loop(token, head_ptr, tmp, prev);
 		i++;
+		token = token->next;
 	}
-	ft_free_array(args);
 }
 
 /* Implementation of the built-in command `unset` */
-void	bi_unset(char *str, t_env **head_ptr)
+void	bi_unset(t_token *token, t_env **head_ptr)
 {
-	if (!str)
+	if (token && ft_strcmp(token->value, "unset") == 0)
+		token = token->next;
+	if (!token->value)
 		return ;
-	while (*str && ft_isspace(*str))
-		str++;
-	if (!*str)
-		return ;
-	unset_args(str, head_ptr);
+	unset_args(token, head_ptr);
 }
 /*
 int	main(int ac, char *av[], char *envp[])

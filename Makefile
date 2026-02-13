@@ -6,7 +6,7 @@
 #    By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/22 20:13:40 by juljin            #+#    #+#              #
-#    Updated: 2026/02/05 15:17:53 by sopelet          ###   ########.fr        #
+#    Updated: 2026/02/13 13:23:47 by sopelet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@
 NAME		= minishell
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -g3 -I$(INCDIR) -I$(LIBFTDIR)/includes
+CFLAGS		= -Wall -Werror -Wextra -g3 -I$(INCDIR) -I$(LIBFTDIR)/includes \
+# 			-fsanitize=address
 LINKFLAGS	= -lreadline
 
 RM			= rm -f
@@ -48,11 +49,17 @@ ENV			= env/env.c \
 			  env/env_clean.c \
 			  env/env_conversion.c \
 
+EXEC		= exec/single_com.c
+
+PARSE		= parse/parse.c \
+			  parse/token_create.c \
+			  parse/token_utils.c
+
 SIG			= signal/signal.c
 
 ERR			= error/err_printer.c
 
-SRC			= $(addprefix $(SRCDIR)/, $(CORE) $(BI) $(ENV) $(SIG) $(ERR))
+SRC			= $(addprefix $(SRCDIR)/, $(CORE) $(BI) $(ENV) $(EXEC) $(PARSE) $(SIG) $(ERR))
 
 # ════════════════════════════════════════════════════════════════════════════ #
 #                                OBJECT FILES                                  #
@@ -91,7 +98,13 @@ $(OBJDIR)/%.o: $(SRCDIR)/builtins/%.c | $(OBJDIR)
 $(OBJDIR)/%.o: $(SRCDIR)/env/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(OBJDIR)/%.o: $(SRCDIR)/exec/%.c | $(OBJDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
 $(OBJDIR)/%.o: $(SRCDIR)/signal/%.c | $(OBJDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/%.o: $(SRCDIR)/parse/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/error/%.c | $(OBJDIR)
