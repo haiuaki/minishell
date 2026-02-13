@@ -1,40 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/02 16:43:10 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/02 17:50:22 by juljin           ###   ########.fr       */
+/*   Created: 2026/02/10 17:45:07 by juljin            #+#    #+#             */
+/*   Updated: 2026/02/13 09:50:21 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Helper function to add a token type to each token */
-void	add_token_type(t_token *token)
+/* Helper function to verify if a character is a quote */
+int	is_quote(char c)
 {
-	if (ft_strcmp(token->value, "|") == 0)
-		token->type = TK_PIPE;
-	else if (ft_strcmp(token->value, ">") == 0)
-		token->type = TK_REDIR_OUT;
-	else if (ft_strcmp(token->value, "<") == 0)
-		token->type = TK_REDIR_OUT;
-	else if (ft_strcmp(token->value, ">>") == 0)
-		token->type = TK_APPEND;
-	else if (ft_strcmp(token->value, "<<") == 0)
-		token->type = TK_HEREDOC;
-	else
-		token->type = TK_WORD;
+	return (c == '\'' || c == '"');
 }
 
-/* Breaks the input into tokens and categorizes them with `add_token_type` */
-t_token	lexer()
+/* Helper function to verify if a charcter is a separator */
+int	is_separator(char c)
 {
-	
+	return (c == '|' || c == '<' || c == '>');
 }
 
+/* Helper function to add a node to the end of the list */
+void	token_add_back(t_token **head, t_token *new_node)
+{
+	t_token	*current;
+
+	if (!head || !new_node)
+		return ;
+	if (!*head)
+	{
+		*head = new_node;
+		return ;
+	}
+	current = *head;
+	while (current->next)
+		current = current->next;
+	current->next = new_node;
+}
+
+/* Helper function to free a `t_token` node */
 void	free_token_node(t_token *node)
 {
 	if (!node)
@@ -44,6 +52,7 @@ void	free_token_node(t_token *node)
 	free(node);
 }
 
+/* Helper function to free a `t_token` list */
 void	free_token_list(t_token *head)
 {
 	t_token	*tmp;
@@ -52,6 +61,7 @@ void	free_token_list(t_token *head)
 		return ;
 	while (head)
 	{
+		tmp = head->next;
 		free_token_node(head);
 		head = tmp;
 	}

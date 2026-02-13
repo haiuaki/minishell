@@ -6,7 +6,7 @@
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:34:22 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/02 17:18:38 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/10 17:52:30 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,19 @@ typedef struct s_token
 {
 	char					*value;
 	t_token_type			type;
-	struct s_token_type		*next;
+	struct s_token			*next;
 }							t_token;
+
+/* --------------------------------- LEXER ---------------------------------- */
+
+t_token	*tokenizer(char *input);
+t_token	*create_token(char *str, size_t *i);
+
+/* --------------------------------- UTILS ---------------------------------- */
+int	is_quote(char c);
+int	is_separator(char c);
+void	token_add_back(t_token **head, t_token *new_node);
+void	free_token_node(t_token *node);
+void	free_token_list(t_token *head);
 
 #endif
