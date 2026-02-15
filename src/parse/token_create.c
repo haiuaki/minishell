@@ -6,7 +6,7 @@
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:43:10 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/13 09:54:13 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/13 16:01:28 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,37 @@ static void	set_token_type(t_token *token)
 	else
 		token->type = TK_WORD;
 }
-
 /*
- * Helper function that enters/exits a `quote mode` to retrieve the string in
- * the quotes (e.g. echo "ls | grep" # it will be a `TK_WORD` type)
- * */
-static void	set_quote_mode(char c, char *in_quote)
+ * Helper function to determine the token's length.
+ * If the token is in quotes, will enter a 'in_quote' mode
+ * and will retrieve the entire "word" inside the quotes.
+ * (e.g. echo "ls | grep" ; "ls | grep" will be the value
+ * of the token and will be a `TK_WORD` type)
+ */
+static size_t	set_word_len(char *str, size_t *i)
 {
-	if (is_quote(c))
+	size_t	len;
+	char	c;
+	char	in_quote;
+
+	len = 0;
+	while (str[*i + len])
 	{
-		if (*in_quote == 0)
-			*in_quote = c;
-		else if (*in_quote == c)
-			*in_quote = 0;
+		c = str[*i + len];
+		if (is_quote(c))
+		{
+			if (in_quote == 0)
+				in_quote = c;
+			else if (in_quote == c)
+				in_quote = 0;
+		}
+		if (!in_quote && (ft_isspace(c) || is_sep(c)))
+			break ;
+		len++;
 	}
+	return (len);
 }
 
-/* Helper function to create a token if the first character is an operator */
 static t_token	*tokenize_operator(char *str, size_t *i)
 {
 	t_token	*new_token;
@@ -72,17 +86,8 @@ static t_token	*tokenize_word(char *str, size_t *i)
 {
 	t_token	*new_token;
 	size_t	len;
-	char	in_quote;
 
-	len = 0;
-	in_quote = 0;
-	while (str[*i + len])
-	{
-		set_quote_mode(str[*i + len], &in_quote);
-		if (!in_quote && (ft_isspace(str[*i + len]) || is_sep(str[*i + len])))
-			break ;
-		len++;
-	}
+	len = set_word_len(str, i);
 	new_token = ft_calloc(1, sizeof(t_token));
 	if (!new_token)
 		return (NULL);

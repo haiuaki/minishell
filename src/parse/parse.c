@@ -6,7 +6,7 @@
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 09:56:23 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/13 10:15:50 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/13 15:40:59 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_token	*tokenizer(char *input)
 	}
 	return (head);
 }
-/*
+
 int	main(void)
 {
 	t_token	*tokens;
@@ -65,4 +65,4 @@ int	main(void)
 	}
 	return (0);
 }
-*/
+

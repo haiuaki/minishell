@@ -6,7 +6,7 @@
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:34:22 by juljin            #+#    #+#             */
-/*   Updated: 2026/02/13 13:09:22 by juljin           ###   ########.fr       */
+/*   Updated: 2026/02/13 15:40:18 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,17 @@ typedef enum e_token_type
 	TK_HEREDOC,
 }	t_token_type;
 
+typedef enum e_quote
+{
+	NONE,
+	SINGLE,
+	DOUBLE
+}	t_quote;
+
 typedef struct s_token
 {
 	char			*value;
+	t_quote			q_type;
 	t_token_type	type;
 	struct s_token	*next;
 }					t_token;
