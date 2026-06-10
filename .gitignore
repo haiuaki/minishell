@@ -1,0 +1,13 @@
+# Binaries
+minishell
+supp
+
+# Object files
+*.o
+objs/
+
+# Configuration files
+.vscode/
+
+# Tester
+minishell_tester/
