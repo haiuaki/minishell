@@ -33,15 +33,58 @@ struct s_env
 	struct s_env	*next;
 };
 
+/* ----------------------------- LEXER STRUCTS ------------------------------ */
+
+struct s_token
+{
+	char			*value;
+	char			*meta;
+	t_token_type	type;
+	struct s_token	*next;
+	int				to_skip;
+};
+
+struct s_tokenizer
+{
+	const char	*input;
+	char		*buffer;
+	char		*meta_buffer;
+	size_t		read_i;
+	size_t		write_i;
+	char		quote_char;
+	int			complete;
+};
+
+/* ------------------------------ EXEC STRUCTS ------------------------------ */
+
+struct s_redir
+{
+	t_token_type	type;
+	char			*redir_target;
+	int				fd_target;
+	int				fd_heredoc;
+	int				fd_open;
+	int				quoted_delimiter;
+	struct s_redir	*next;
+};
+
+struct s_cmd
+{
+	char			**args;
+	t_redir			*redir;
+	int				redir_error;
+	struct s_cmd	*next;
+};
+
 /* ------------------------------ SHELL STRUCT ------------------------------ */
 
 struct s_shell
 {
 	char	*input;
 	t_env	*env_list;
-	void	*tokens;
-	void	*cmds;
-	void	*head_cmds;
+	t_token	*tokens;
+	t_cmd	*cmds;
+	t_cmd	*head_cmds;
 	int		last_exit_code;
 	int		is_first_cmd;
 	int		is_interactive;

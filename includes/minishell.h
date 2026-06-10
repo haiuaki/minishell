@@ -23,6 +23,9 @@
 
 # include "env.h"
 # include "error.h"
+# include "expander.h"
+# include "lexer.h"
+# include "parser.h"
 # include "shell.h"
 # include "sig.h"
 
