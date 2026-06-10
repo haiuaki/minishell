@@ -5,6 +5,7 @@ supp
 # Object files
 *.o
 objs/
+objs_bonus/
 
 # Configuration files
 .vscode/

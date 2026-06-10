@@ -94,25 +94,58 @@ ERR_SHARED	= error/err_printer.c \
 # Base SRC (always present)
 SRC			= $(CORE) $(BI) $(ENV) $(SIG) $(EXP_SHARED) $(LEX_SHARED) \
 			  $(EXEC_SHARED) $(PAR_SHARED) $(ERR_SHARED) \
-			  exec/exec.c \
-			  exec/exec_single.c \
-			  exec/exec_pipeline.c \
-			  exec/exec_redir_apply.c \
-			  exec/exec_redir_close.c \
-			  exec/exec_redir_setup.c \
-			  exec/exec_cleanup.c \
-			  exec/heredoc.c \
-			  lexer/lexer_utils.c \
-			  expander/expander.c \
-			  parser/parse_cmd.c \
-			  parser/parse_redir.c \
-			  error/op_error.c
 
-OBJDIR		= objs
+# ════════════════════════════════════════════════════════════════════════════ #
+#                                 BONUS CONFIG                                 #
+# ════════════════════════════════════════════════════════════════════════════ #
+
+ifeq ($(BONUS), 1)
+	OBJDIR		= objs_bonus
+	CFLAGS		+= -DBONUS=1
+	SRC			+= bonus/exec/exec_bonus.c \
+				   bonus/exec/exec_single_bonus.c \
+				   bonus/exec/exec_subshell_bonus.c \
+				   bonus/exec/exec_pipeline_bonus.c \
+				   bonus/exec/exec_pipeline_utils_bonus.c \
+				   bonus/exec/exec_logical_bonus.c \
+				   bonus/exec/exec_cleanup_bonus.c \
+				   bonus/exec/heredoc_bonus.c \
+				   bonus/exec/heredoc_utils_bonus.c \
+				   bonus/exec/exec_redir_apply_bonus.c \
+				   bonus/exec/exec_redir_close_bonus.c \
+				   bonus/exec/exec_redir_setup_bonus.c \
+				   bonus/lexer/lexer_check_bonus.c \
+				   bonus/lexer/lexer_utils_bonus.c \
+				   bonus/expander/expander_bonus.c \
+				   bonus/expander/expand_wildcard_bonus.c \
+				   bonus/expander/expand_wildcard_utils_bonus.c \
+				   bonus/parser/parse_cmd_bonus.c \
+				   bonus/parser/parse_argv_bonus.c \
+				   bonus/parser/parse_redir_bonus.c \
+				   bonus/error/op_error_bonus.c \
+				   bonus/error/op_error_check_bonus.c
+else
+	OBJDIR		= objs
+	CFLAGS		+= -DBONUS=0
+	SRC			+= exec/exec.c \
+				   exec/exec_single.c \
+				   exec/exec_pipeline.c \
+				   exec/exec_redir_apply.c \
+				   exec/exec_redir_close.c \
+				   exec/exec_redir_setup.c \
+				   exec/exec_cleanup.c \
+				   exec/heredoc.c \
+				   lexer/lexer_utils.c \
+				   expander/expander.c \
+				   parser/parse_cmd.c \
+				   parser/parse_redir.c \
+				   error/op_error.c
+endif
+
 INCFLAGS	= -I$(INCDIR) -I$(LIBFTDIR)/includes
 
 # ════════════════════════════════════════════════════════════════════════════ #
-#                                OBJECT FILES                                  #
+#                                 OBJECT FILES                                 #
 # ════════════════════════════════════════════════════════════════════════════ #
 
 OBJS		= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
@@ -121,13 +154,16 @@ OBJS		= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 #                                PHONY TARGETS                                 #
 # ════════════════════════════════════════════════════════════════════════════ #
 
-.PHONY: all clean fclean re
+.PHONY: all bonus clean fclean re rebonus
 
 # ════════════════════════════════════════════════════════════════════════════ #
 #                                DEFAULT TARGET                                #
 # ════════════════════════════════════════════════════════════════════════════ #
 
 all: $(NAME)
+
+bonus:
+	@$(MAKE) BONUS=1 all
 
 # ════════════════════════════════════════════════════════════════════════════ #
 #                                 BUILD RULES                                  #
@@ -142,7 +178,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 
 $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(CFLAGS) $(INCFLAGS) $(OBJS) $(LIBFT) $(LINKFLAGS) -o $@
-	@echo "✓ $(NAME) created successfully"
+	@echo "✓ $(NAME) (BONUS=$(if $(BONUS),$(BONUS),0)) created successfully"
 
 # ════════════════════════════════════════════════════════════════════════════ #
 #                                CLEANUP RULES                                 #
@@ -150,10 +186,12 @@ $(NAME): $(LIBFT) $(OBJS)
 
 clean:
 	@$(MAKE) -C $(LIBFTDIR) clean
-	$(RM) -r objs
+	$(RM) -r objs objs_bonus
 
 fclean: clean
 	@$(MAKE) -C $(LIBFTDIR) fclean
 	$(RM) $(NAME)
 
 re: fclean all
+
+rebonus: fclean bonus

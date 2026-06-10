@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:06:23 by juljin            #+#    #+#             */
-/*   Updated: 2026/06/10 16:49:41 by sopelet          ###   ########.fr       */
+/*   Updated: 2026/06/10 11:15:00 by jlnjin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stddef.h>	// For size_t
 # include <sys/types.h>
 # include "types.h"
+# include "bonus.h"
 
 /* ------------------------------- ENV STRUCT ------------------------------- */
 
@@ -73,6 +74,7 @@ struct s_cmd
 	char			**args;
 	t_redir			*redir;
 	int				redir_error;
+	t_cmd_bonus		bonus;
 	struct s_cmd	*next;
 };
 

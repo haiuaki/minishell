@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   minishell_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:13:52 by juljin            #+#    #+#             */
-/*   Updated: 2026/06/09 15:00:00 by jlnjin           ###   ########.fr       */
+/*   Updated: 2026/04/07 02:41:06 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef MINISHELL_BONUS_H
+# define MINISHELL_BONUS_H
 
 /* -------------------------- FOUNDATIONAL HEADERS -------------------------- */
 
@@ -21,31 +21,15 @@
 
 /* --------------------------- SUBSYSTEM HEADERS ---------------------------- */
 
-# if defined(BONUS) && BONUS == 1
-
-#  include "ext/builtins_bonus.h"
-#  include "ext/env_bonus.h"
-#  include "ext/error_bonus.h"
-#  include "ext/exec_bonus.h"
-#  include "ext/expander_bonus.h"
-#  include "ext/lexer_bonus.h"
-#  include "ext/parser_bonus.h"
-#  include "ext/shell_bonus.h"
-#  include "ext/sig_bonus.h"
-
-# else
-
-#  include "builtins.h"
-#  include "env.h"
-#  include "error.h"
-#  include "exec.h"
-#  include "expander.h"
-#  include "lexer.h"
-#  include "parser.h"
-#  include "shell.h"
-#  include "sig.h"
-
-# endif
+# include "builtins_bonus.h"
+# include "env_bonus.h"
+# include "error_bonus.h"
+# include "exec_bonus.h"
+# include "expander_bonus.h"
+# include "lexer_bonus.h"
+# include "parser_bonus.h"
+# include "shell_bonus.h"
+# include "sig_bonus.h"
 
 /* -------------------------------- MESSAGES -------------------------------- */
 

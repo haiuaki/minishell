@@ -1,24 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   exec_bonus.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/18 13:20:29 by sopelet           #+#    #+#             */
-/*   Updated: 2026/06/10 16:52:32 by sopelet          ###   ########.fr       */
-=======
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 13:20:29 by sopelet           #+#    #+#             */
-/*   Updated: 2026/04/03 18:37:34 by juljin           ###   ########.fr       */
->>>>>>> m_4_bonus
+/*   Updated: 2026/04/07 02:40:59 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_H
-# define EXEC_H
+#ifndef EXEC_BONUS_H
+# define EXEC_BONUS_H
 
 # include "structs.h"
 
@@ -27,19 +20,11 @@
 void	exec_single_coms(t_shell *s);
 void	exec_multiple(t_shell *s);
 void	exec_external_cmd(t_shell *s);
-void	exec_mandatory_list(t_shell *s);
-<<<<<<< HEAD
-
-static inline void	exec_command_list(t_shell *s)
-{
-	exec_mandatory_list(s);
-}
-
-=======
->>>>>>> m_4_bonus
+void	exec_subshell(t_shell *s, t_cmd *cmd);
 void	child_process(t_shell *s, t_pipe *data);
 void	child_process_exec(t_shell *s, t_pipe *data, char *cmd_path,
 			char **env_array);
+void	exec_command_list(t_shell *s);
 
 /* -------------------------------- PIPELINE -------------------------------- */
 
@@ -48,6 +33,8 @@ int		exec_loop(t_shell *s, t_pipe *data);
 /* -------------------------------- HERE-DOC -------------------------------- */
 
 int		init_here_doc(t_shell *s);
+void	read_here_doc_lines(t_shell *s, int write_fd, t_redir *redir);
+int		null_line(char *line, char *delimiter);
 
 /* -------------------------------- BUILTINS -------------------------------- */
 
@@ -88,5 +75,14 @@ void	free_cmd_node(t_cmd *node_cmd);
 void	free_redir_list(t_redir *redir);
 void	free_redir_node(t_redir *redir_node);
 void	cleanup_exec_resources(char *cmd_path, char **env_array);
+
+/* ----------------------------- PIPELINE UTILS ----------------------------- */
+
+int		child_builtins(t_shell *s, t_pipe *data, char **env_array,
+			t_cmd *current_cmd);
+void	handle_subshell(t_shell *s, char **env_array,
+			char *cmd_path);
+void	handle_empty_cmd(t_shell *s, t_pipe *data, char **env_array);
+void	init_pipe_data(t_shell *s, t_pipe *data);
 
 #endif

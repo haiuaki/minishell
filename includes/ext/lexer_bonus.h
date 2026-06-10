@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   lexer_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:34:22 by juljin            #+#    #+#             */
-/*   Updated: 2026/04/01 23:19:07 by juljin           ###   ########.fr       */
+/*   Updated: 2026/04/07 02:41:04 by juljin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef LEXER_BONUS_H
+# define LEXER_BONUS_H
 
 # include "structs.h"
 
@@ -34,7 +34,9 @@ int		is_quote(char c);
 int		is_sep(char c);
 int		is_operator(t_token *token);
 int		is_link(t_token *token);
-int		is_incomplete_mandatory(t_token *tokens);
+int		is_unclosed_paren(t_token *tokens);
+int		is_incomplete_token(t_token *tokens);
+int		is_logical_connector(t_token *token);
 void	set_token_type(t_token *token);
 
 /* ------------------------------- LIST UTILS ------------------------------- */
