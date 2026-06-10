@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:34:22 by juljin            #+#    #+#             */
-/*   Updated: 2026/04/01 23:19:07 by juljin           ###   ########.fr       */
+/*   Updated: 2026/06/10 16:53:00 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ int		is_operator(t_token *token);
 int		is_link(t_token *token);
 int		is_incomplete_mandatory(t_token *tokens);
 void	set_token_type(t_token *token);
+
+static inline int	is_incomplete(t_token *tokens)
+{
+	return (is_incomplete_mandatory(tokens));
+}
 
 /* ------------------------------- LIST UTILS ------------------------------- */
 

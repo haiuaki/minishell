@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:13:52 by juljin            #+#    #+#             */
-/*   Updated: 2026/06/09 15:00:00 by jlnjin           ###   ########.fr       */
+/*   Updated: 2026/06/10 16:49:34 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@
 
 /* --------------------------- SUBSYSTEM HEADERS ---------------------------- */
 
+# include "builtins.h"
 # include "env.h"
 # include "error.h"
+# include "exec.h"
 # include "expander.h"
 # include "lexer.h"
 # include "parser.h"

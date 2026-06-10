@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juljin <juljin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sopelet <sopelet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:06:23 by juljin            #+#    #+#             */
-/*   Updated: 2026/06/10 11:15:00 by jlnjin           ###   ########.fr       */
+/*   Updated: 2026/06/10 16:49:41 by sopelet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,18 @@ struct s_cmd
 	t_redir			*redir;
 	int				redir_error;
 	struct s_cmd	*next;
+};
+
+struct s_pipe
+{
+	int		pipe_fd[2];
+	int		prev_read_pipe;
+	pid_t	pid;
+	int		status;
+	int		cmd_index;
+	t_cmd	*cmd_head;
+	t_env	*env;
+	t_token	*tokens;
 };
 
 /* ------------------------------ SHELL STRUCT ------------------------------ */
